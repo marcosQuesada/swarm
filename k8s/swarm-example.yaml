@@ -1,0 +1,18 @@
+apiVersion: "k8-lab.info/v1alpha1"
+kind: "Swarm"
+metadata:
+  name: "foo"
+  namespace: "default"
+spec:
+  replicas: 4
+  size: 3
+  peers:
+    - id: "peer1"
+      address: "10.9.9.1"
+      created_at: 1629323288396801946
+    - id: "peer2"
+      address: "10.9.9.2"
+      created_at: 1629323288396805946
+    - id: "peer3"
+      address: "10.9.9.3"
+      created_at: 1629323288396807946

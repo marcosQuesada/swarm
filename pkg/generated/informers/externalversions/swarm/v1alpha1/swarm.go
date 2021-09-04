@@ -19,6 +19,7 @@ limitations under the License.
 package v1alpha1
 
 import (
+	"context"
 	time "time"
 
 	swarmv1alpha1 "github.com/marcosQuesada/swarm/pkg/apis/swarm/v1alpha1"
@@ -61,13 +62,13 @@ func NewFilteredSwarmInformer(client versioned.Interface, namespace string, resy
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.SwarmV1alpha1().Swarms(namespace).List(options)
+				return client.SwarmV1alpha1().Swarms(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.SwarmV1alpha1().Swarms(namespace).Watch(options)
+				return client.SwarmV1alpha1().Swarms(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&swarmv1alpha1.Swarm{},

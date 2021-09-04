@@ -33,7 +33,7 @@ spec:
                   type: integer
                 peers:
                   type: array
-                  additionalProperties:
+                  items:
                     type: object
                     required:
                       - id

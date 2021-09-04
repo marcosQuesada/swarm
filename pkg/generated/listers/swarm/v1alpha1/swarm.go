@@ -26,8 +26,10 @@ import (
 )
 
 // SwarmLister helps list Swarms.
+// All objects returned here must be treated as read-only.
 type SwarmLister interface {
 	// List lists all Swarms in the indexer.
+	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1alpha1.Swarm, err error)
 	// Swarms returns an object that can list and get Swarms.
 	Swarms(namespace string) SwarmNamespaceLister
@@ -58,10 +60,13 @@ func (s *swarmLister) Swarms(namespace string) SwarmNamespaceLister {
 }
 
 // SwarmNamespaceLister helps list and get Swarms.
+// All objects returned here must be treated as read-only.
 type SwarmNamespaceLister interface {
 	// List lists all Swarms in the indexer for a given namespace.
+	// Objects returned here must be treated as read-only.
 	List(selector labels.Selector) (ret []*v1alpha1.Swarm, err error)
 	// Get retrieves the Swarm from the indexer for a given namespace and name.
+	// Objects returned here must be treated as read-only.
 	Get(name string) (*v1alpha1.Swarm, error)
 	SwarmNamespaceListerExpansion
 }

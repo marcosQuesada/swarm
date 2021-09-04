@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swarm-operator-deployment
+  labels:
+    app: swarm-operator
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: swarm-operator
+  template:
+    metadata:
+      annotations:
+        sidecar.istio.io/inject: "false"
+      labels:
+        app: swarm-operator
+    spec:
+      containers:
+        - name: swarm-operator
+          image: k8-lab
+          imagePullPolicy: Never
+          command: [ "/app/k8-lab" ]
+          args: [ "controller"" ]
+          resources:
+            limits:
+              memory: 0.250G
+              cpu: 100m
+            requests:
+              memory: 0.05G
+              cpu: 5m

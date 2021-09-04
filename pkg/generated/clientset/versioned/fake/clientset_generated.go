@@ -74,7 +74,10 @@ func (c *Clientset) Tracker() testing.ObjectTracker {
 	return c.tracker
 }
 
-var _ clientset.Interface = &Clientset{}
+var (
+	_ clientset.Interface = &Clientset{}
+	_ testing.FakeClient  = &Clientset{}
+)
 
 // SwarmV1alpha1 retrieves the SwarmV1alpha1Client
 func (c *Clientset) SwarmV1alpha1() swarmv1alpha1.SwarmV1alpha1Interface {

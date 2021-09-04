@@ -19,6 +19,8 @@ limitations under the License.
 package fake
 
 import (
+	"context"
+
 	v1alpha1 "github.com/marcosQuesada/swarm/pkg/apis/swarm/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	labels "k8s.io/apimachinery/pkg/labels"
@@ -39,7 +41,7 @@ var swarmsResource = schema.GroupVersionResource{Group: "swarm.k8-lab.info", Ver
 var swarmsKind = schema.GroupVersionKind{Group: "swarm.k8-lab.info", Version: "v1alpha1", Kind: "Swarm"}
 
 // Get takes name of the swarm, and returns the corresponding swarm object, and an error if there is any.
-func (c *FakeSwarms) Get(name string, options v1.GetOptions) (result *v1alpha1.Swarm, err error) {
+func (c *FakeSwarms) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Swarm, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewGetAction(swarmsResource, c.ns, name), &v1alpha1.Swarm{})
 
@@ -50,7 +52,7 @@ func (c *FakeSwarms) Get(name string, options v1.GetOptions) (result *v1alpha1.S
 }
 
 // List takes label and field selectors, and returns the list of Swarms that match those selectors.
-func (c *FakeSwarms) List(opts v1.ListOptions) (result *v1alpha1.SwarmList, err error) {
+func (c *FakeSwarms) List(ctx context.Context, opts v1.ListOptions) (result *v1alpha1.SwarmList, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewListAction(swarmsResource, swarmsKind, c.ns, opts), &v1alpha1.SwarmList{})
 
@@ -72,14 +74,14 @@ func (c *FakeSwarms) List(opts v1.ListOptions) (result *v1alpha1.SwarmList, err 
 }
 
 // Watch returns a watch.Interface that watches the requested swarms.
-func (c *FakeSwarms) Watch(opts v1.ListOptions) (watch.Interface, error) {
+func (c *FakeSwarms) Watch(ctx context.Context, opts v1.ListOptions) (watch.Interface, error) {
 	return c.Fake.
 		InvokesWatch(testing.NewWatchAction(swarmsResource, c.ns, opts))
 
 }
 
 // Create takes the representation of a swarm and creates it.  Returns the server's representation of the swarm, and an error, if there is any.
-func (c *FakeSwarms) Create(swarm *v1alpha1.Swarm) (result *v1alpha1.Swarm, err error) {
+func (c *FakeSwarms) Create(ctx context.Context, swarm *v1alpha1.Swarm, opts v1.CreateOptions) (result *v1alpha1.Swarm, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewCreateAction(swarmsResource, c.ns, swarm), &v1alpha1.Swarm{})
 
@@ -90,7 +92,7 @@ func (c *FakeSwarms) Create(swarm *v1alpha1.Swarm) (result *v1alpha1.Swarm, err 
 }
 
 // Update takes the representation of a swarm and updates it. Returns the server's representation of the swarm, and an error, if there is any.
-func (c *FakeSwarms) Update(swarm *v1alpha1.Swarm) (result *v1alpha1.Swarm, err error) {
+func (c *FakeSwarms) Update(ctx context.Context, swarm *v1alpha1.Swarm, opts v1.UpdateOptions) (result *v1alpha1.Swarm, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewUpdateAction(swarmsResource, c.ns, swarm), &v1alpha1.Swarm{})
 
@@ -102,7 +104,7 @@ func (c *FakeSwarms) Update(swarm *v1alpha1.Swarm) (result *v1alpha1.Swarm, err 
 
 // UpdateStatus was generated because the type contains a Status member.
 // Add a +genclient:noStatus comment above the type to avoid generating UpdateStatus().
-func (c *FakeSwarms) UpdateStatus(swarm *v1alpha1.Swarm) (*v1alpha1.Swarm, error) {
+func (c *FakeSwarms) UpdateStatus(ctx context.Context, swarm *v1alpha1.Swarm, opts v1.UpdateOptions) (*v1alpha1.Swarm, error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewUpdateSubresourceAction(swarmsResource, "status", c.ns, swarm), &v1alpha1.Swarm{})
 
@@ -113,7 +115,7 @@ func (c *FakeSwarms) UpdateStatus(swarm *v1alpha1.Swarm) (*v1alpha1.Swarm, error
 }
 
 // Delete takes name of the swarm and deletes it. Returns an error if one occurs.
-func (c *FakeSwarms) Delete(name string, options *v1.DeleteOptions) error {
+func (c *FakeSwarms) Delete(ctx context.Context, name string, opts v1.DeleteOptions) error {
 	_, err := c.Fake.
 		Invokes(testing.NewDeleteAction(swarmsResource, c.ns, name), &v1alpha1.Swarm{})
 
@@ -121,15 +123,15 @@ func (c *FakeSwarms) Delete(name string, options *v1.DeleteOptions) error {
 }
 
 // DeleteCollection deletes a collection of objects.
-func (c *FakeSwarms) DeleteCollection(options *v1.DeleteOptions, listOptions v1.ListOptions) error {
-	action := testing.NewDeleteCollectionAction(swarmsResource, c.ns, listOptions)
+func (c *FakeSwarms) DeleteCollection(ctx context.Context, opts v1.DeleteOptions, listOpts v1.ListOptions) error {
+	action := testing.NewDeleteCollectionAction(swarmsResource, c.ns, listOpts)
 
 	_, err := c.Fake.Invokes(action, &v1alpha1.SwarmList{})
 	return err
 }
 
 // Patch applies the patch and returns the patched swarm.
-func (c *FakeSwarms) Patch(name string, pt types.PatchType, data []byte, subresources ...string) (result *v1alpha1.Swarm, err error) {
+func (c *FakeSwarms) Patch(ctx context.Context, name string, pt types.PatchType, data []byte, opts v1.PatchOptions, subresources ...string) (result *v1alpha1.Swarm, err error) {
 	obj, err := c.Fake.
 		Invokes(testing.NewPatchSubresourceAction(swarmsResource, c.ns, name, pt, data, subresources...), &v1alpha1.Swarm{})
 
