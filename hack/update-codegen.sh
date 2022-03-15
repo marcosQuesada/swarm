@@ -26,7 +26,7 @@ CODEGEN_PKG=${CODEGEN_PKG:-$(cd "${SCRIPT_ROOT}"; ls -d -1 ./vendor/k8s.io/code-
 #                  k8s.io/kubernetes. The output-base is needed for the generators to output into the vendor dir
 #                  instead of the $GOPATH directly. For normal projects this can be dropped.
 "${CODEGEN_PKG}"/generate-groups.sh "deepcopy,client,informer,lister" \
-  github.com/marcosQuesada/swarm/pkg/generated github.com/marcosQuesada/swarm/pkg/apis \
+  pkg/generated github.com/marcosQuesada/swarm/pkg/apis \
   swarm:v1alpha1 \
-  --output-base "$(dirname "${BASH_SOURCE[0]}")/../../../../" \
+  --output-base "$(dirname "${BASH_SOURCE[0]}")/" \
   --go-header-file "${SCRIPT_ROOT}"/hack/boilerplate.go.txt

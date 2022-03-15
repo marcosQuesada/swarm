@@ -58,7 +58,9 @@ to quickly create a Cobra application.`,
 		kubeInformerFactory := kubeinformers.NewSharedInformerFactory(kubeClient, time.Minute*10)
 		swarmInformerFactory := informers.NewSharedInformerFactory(swarmClient, time.Minute*10)
 
-		controller := operator.NewController(kubeClient, swarmClient, swarmInformerFactory.Swarm().V1alpha1().Swarms(), kubeInformerFactory.Core().V1().Pods())
+		podInformer := kubeInformerFactory.Core().V1().Pods()
+		swarmInformer := swarmInformerFactory.K8slab().V1alpha1().Swarms()
+		controller := operator.NewController(kubeClient, swarmClient, podInformer, swarmInformer)
 
 		// notice that there is no need to run Start methods in a separate goroutine. (i.e. go kubeInformerFactory.Start(stopCh))
 		// Start method is non-blocking and runs all registered informers in a dedicated goroutine.

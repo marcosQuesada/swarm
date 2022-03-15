@@ -16,5 +16,14 @@ Generate as:
 ./hack/update-codegen.sh
 ```
 
+## Generating on pkg/generated
+```
+vendor/k8s.io/code-generator/generate-groups.sh all github.com/marcosQuesada/swarm/pkg/generated github.com/marcosQuesada/swarm/pkg/apis "swarm:v1alpha1" --go-header-file ./hack/boilerplate.go.txt --output-base "$(dirname "${BASH_SOURCE[0]}")/" -v 3
+```
+
+/apis/k8slab.info/v1alpha1/namespaces/default/swarms/foo/status
+
+
+
 
 

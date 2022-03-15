@@ -20,8 +20,8 @@ package fake
 
 import (
 	clientset "github.com/marcosQuesada/swarm/pkg/generated/clientset/versioned"
-	swarmv1alpha1 "github.com/marcosQuesada/swarm/pkg/generated/clientset/versioned/typed/swarm/v1alpha1"
-	fakeswarmv1alpha1 "github.com/marcosQuesada/swarm/pkg/generated/clientset/versioned/typed/swarm/v1alpha1/fake"
+	k8slabv1alpha1 "github.com/marcosQuesada/swarm/pkg/generated/clientset/versioned/typed/swarm/v1alpha1"
+	fakek8slabv1alpha1 "github.com/marcosQuesada/swarm/pkg/generated/clientset/versioned/typed/swarm/v1alpha1/fake"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/watch"
 	"k8s.io/client-go/discovery"
@@ -79,7 +79,7 @@ var (
 	_ testing.FakeClient  = &Clientset{}
 )
 
-// SwarmV1alpha1 retrieves the SwarmV1alpha1Client
-func (c *Clientset) SwarmV1alpha1() swarmv1alpha1.SwarmV1alpha1Interface {
-	return &fakeswarmv1alpha1.FakeSwarmV1alpha1{Fake: &c.Fake}
+// K8slabV1alpha1 retrieves the K8slabV1alpha1Client
+func (c *Clientset) K8slabV1alpha1() k8slabv1alpha1.K8slabV1alpha1Interface {
+	return &fakek8slabv1alpha1.FakeK8slabV1alpha1{Fake: &c.Fake}
 }

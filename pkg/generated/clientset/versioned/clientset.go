@@ -21,7 +21,7 @@ package versioned
 import (
 	"fmt"
 
-	swarmv1alpha1 "github.com/marcosQuesada/swarm/pkg/generated/clientset/versioned/typed/swarm/v1alpha1"
+	k8slabv1alpha1 "github.com/marcosQuesada/swarm/pkg/generated/clientset/versioned/typed/swarm/v1alpha1"
 	discovery "k8s.io/client-go/discovery"
 	rest "k8s.io/client-go/rest"
 	flowcontrol "k8s.io/client-go/util/flowcontrol"
@@ -29,19 +29,19 @@ import (
 
 type Interface interface {
 	Discovery() discovery.DiscoveryInterface
-	SwarmV1alpha1() swarmv1alpha1.SwarmV1alpha1Interface
+	K8slabV1alpha1() k8slabv1alpha1.K8slabV1alpha1Interface
 }
 
 // Clientset contains the clients for groups. Each group has exactly one
 // version included in a Clientset.
 type Clientset struct {
 	*discovery.DiscoveryClient
-	swarmV1alpha1 *swarmv1alpha1.SwarmV1alpha1Client
+	k8slabV1alpha1 *k8slabv1alpha1.K8slabV1alpha1Client
 }
 
-// SwarmV1alpha1 retrieves the SwarmV1alpha1Client
-func (c *Clientset) SwarmV1alpha1() swarmv1alpha1.SwarmV1alpha1Interface {
-	return c.swarmV1alpha1
+// K8slabV1alpha1 retrieves the K8slabV1alpha1Client
+func (c *Clientset) K8slabV1alpha1() k8slabv1alpha1.K8slabV1alpha1Interface {
+	return c.k8slabV1alpha1
 }
 
 // Discovery retrieves the DiscoveryClient
@@ -65,7 +65,7 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 	}
 	var cs Clientset
 	var err error
-	cs.swarmV1alpha1, err = swarmv1alpha1.NewForConfig(&configShallowCopy)
+	cs.k8slabV1alpha1, err = k8slabv1alpha1.NewForConfig(&configShallowCopy)
 	if err != nil {
 		return nil, err
 	}
@@ -81,7 +81,7 @@ func NewForConfig(c *rest.Config) (*Clientset, error) {
 // panics if there is an error in the config.
 func NewForConfigOrDie(c *rest.Config) *Clientset {
 	var cs Clientset
-	cs.swarmV1alpha1 = swarmv1alpha1.NewForConfigOrDie(c)
+	cs.k8slabV1alpha1 = k8slabv1alpha1.NewForConfigOrDie(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClientForConfigOrDie(c)
 	return &cs
@@ -90,7 +90,7 @@ func NewForConfigOrDie(c *rest.Config) *Clientset {
 // New creates a new Clientset for the given RESTClient.
 func New(c rest.Interface) *Clientset {
 	var cs Clientset
-	cs.swarmV1alpha1 = swarmv1alpha1.New(c)
+	cs.k8slabV1alpha1 = k8slabv1alpha1.New(c)
 
 	cs.DiscoveryClient = discovery.NewDiscoveryClient(c)
 	return &cs

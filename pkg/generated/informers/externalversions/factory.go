@@ -172,9 +172,9 @@ type SharedInformerFactory interface {
 	ForResource(resource schema.GroupVersionResource) (GenericInformer, error)
 	WaitForCacheSync(stopCh <-chan struct{}) map[reflect.Type]bool
 
-	Swarm() swarm.Interface
+	K8slab() swarm.Interface
 }
 
-func (f *sharedInformerFactory) Swarm() swarm.Interface {
+func (f *sharedInformerFactory) K8slab() swarm.Interface {
 	return swarm.New(f, f.namespace, f.tweakListOptions)
 }

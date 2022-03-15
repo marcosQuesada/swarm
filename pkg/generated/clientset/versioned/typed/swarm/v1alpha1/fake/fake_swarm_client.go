@@ -24,17 +24,17 @@ import (
 	testing "k8s.io/client-go/testing"
 )
 
-type FakeSwarmV1alpha1 struct {
+type FakeK8slabV1alpha1 struct {
 	*testing.Fake
 }
 
-func (c *FakeSwarmV1alpha1) Swarms(namespace string) v1alpha1.SwarmInterface {
+func (c *FakeK8slabV1alpha1) Swarms(namespace string) v1alpha1.SwarmInterface {
 	return &FakeSwarms{c, namespace}
 }
 
 // RESTClient returns a RESTClient that is used to communicate
 // with API server by this client implementation.
-func (c *FakeSwarmV1alpha1) RESTClient() rest.Interface {
+func (c *FakeK8slabV1alpha1) RESTClient() rest.Interface {
 	var ret *rest.RESTClient
 	return ret
 }

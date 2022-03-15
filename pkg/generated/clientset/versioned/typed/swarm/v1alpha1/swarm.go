@@ -57,7 +57,7 @@ type swarms struct {
 }
 
 // newSwarms returns a Swarms
-func newSwarms(c *SwarmV1alpha1Client, namespace string) *swarms {
+func newSwarms(c *K8slabV1alpha1Client, namespace string) *swarms {
 	return &swarms{
 		client: c.RESTClient(),
 		ns:     namespace,

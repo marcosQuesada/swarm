@@ -10,10 +10,10 @@ import (
 )
 
 type adapter struct {
-	client swarmv1alpha1.SwarmV1alpha1Interface
+	client swarmv1alpha1.K8slabV1alpha1Interface
 }
 
-func NewAdapter(c swarmv1alpha1.SwarmV1alpha1Interface) ListWatcher {
+func NewAdapter(c swarmv1alpha1.K8slabV1alpha1Interface) ListWatcher {
 	return &adapter{client: c}
 }
 

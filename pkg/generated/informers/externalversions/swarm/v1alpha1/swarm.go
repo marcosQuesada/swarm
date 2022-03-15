@@ -62,13 +62,13 @@ func NewFilteredSwarmInformer(client versioned.Interface, namespace string, resy
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.SwarmV1alpha1().Swarms(namespace).List(context.TODO(), options)
+				return client.K8slabV1alpha1().Swarms(namespace).List(context.TODO(), options)
 			},
 			WatchFunc: func(options v1.ListOptions) (watch.Interface, error) {
 				if tweakListOptions != nil {
 					tweakListOptions(&options)
 				}
-				return client.SwarmV1alpha1().Swarms(namespace).Watch(context.TODO(), options)
+				return client.K8slabV1alpha1().Swarms(namespace).Watch(context.TODO(), options)
 			},
 		},
 		&swarmv1alpha1.Swarm{},

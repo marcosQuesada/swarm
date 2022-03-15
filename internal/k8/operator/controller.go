@@ -31,7 +31,7 @@ const controllerAgentName = "swarm-controller"
 
 // Controller is the controller implementation for At resources
 type Controller struct {
-	kubeClientset kubernetes.Interface
+	kubeClientset  kubernetes.Interface
 	swarmClientset clientset.Interface
 
 	swarmLister  listers.SwarmLister
@@ -55,8 +55,9 @@ type Controller struct {
 func NewController(
 	kubeClientset kubernetes.Interface,
 	swarmClientset clientset.Interface,
+	podInformer corev1informer.PodInformer,
 	swarmInformer informers.SwarmInformer,
-	podInformer corev1informer.PodInformer) *Controller {
+) *Controller {
 
 	// Create event broadcaster
 	// Add swarm-controller types to the default Kubernetes Scheme so Events can be
@@ -211,7 +212,7 @@ func (c *Controller) syncHandler(key string) (time.Duration, error) {
 		return time.Duration(0), nil
 	}
 
-	// Get the At resource with this namespace/name
+	// Get the Swarm resource with this namespace/name
 	original, err := c.swarmLister.Swarms(namespace).Get(name)
 	if err != nil {
 		// The At resource may no longer exist, in which case we stop
@@ -239,21 +240,21 @@ func (c *Controller) syncHandler(key string) (time.Duration, error) {
 	case swarmv1alpha1.PhasePending:
 		klog.Infof("instance %s: phase=PENDING", key)
 		// As long as we haven't executed the command yet,  we need to check if it's time already to act:
-	/*	klog.Infof("instance %s: checking schedule %q", key, instance.Spec.Schedule)
-		// Check if it's already time to execute the command with a tolerance of 2 seconds:
-		d, err := timeUntilSchedule(instance.Spec.Schedule)
-		if err != nil {
-			utilruntime.HandleError(fmt.Errorf("schedule parsing failed: %v", err))
-			// Error reading the schedule - requeue the request:
-			return time.Duration(0), err
-		}
-		klog.Infof("instance %s: schedule parsing done: diff=%v", key, d)
-		if d > 0 {
-			// Not yet time to execute the command, wait until the scheduled time
-			return d, nil
-		}
+		/*	klog.Infof("instance %s: checking schedule %q", key, instance.Spec.Schedule)
+			// Check if it's already time to execute the command with a tolerance of 2 seconds:
+			d, err := timeUntilSchedule(instance.Spec.Schedule)
+			if err != nil {
+				utilruntime.HandleError(fmt.Errorf("schedule parsing failed: %v", err))
+				// Error reading the schedule - requeue the request:
+				return time.Duration(0), err
+			}
+			klog.Infof("instance %s: schedule parsing done: diff=%v", key, d)
+			if d > 0 {
+				// Not yet time to execute the command, wait until the scheduled time
+				return d, nil
+			}
 
-		klog.Infof("instance %s: it's time! Ready to execute: %s", key, instance.Spec.Command)*/
+			klog.Infof("instance %s: it's time! Ready to execute: %s", key, instance.Spec.Command)*/
 		instance.Status.Phase = swarmv1alpha1.PhaseRunning
 	case swarmv1alpha1.PhaseRunning:
 		klog.Infof("instance %s: Phase: RUNNING", key)
@@ -292,8 +293,8 @@ func (c *Controller) syncHandler(key string) (time.Duration, error) {
 	}
 
 	if !reflect.DeepEqual(original, instance) {
-		// Update the At instance, setting the status to the respective phase:
-		_, err = c.swarmClientset.SwarmV1alpha1().Swarms(instance.Namespace).UpdateStatus(context.Background(), instance, metav1.UpdateOptions{})
+		// Update the swarm instance, setting the status to the respective phase:
+		_, err = c.swarmClientset.K8slabV1alpha1().Swarms(instance.Namespace).UpdateStatus(context.Background(), instance, metav1.UpdateOptions{})
 		if err != nil {
 			return time.Duration(0), err
 		}
@@ -368,9 +369,9 @@ func newPodForCR(cr *swarmv1alpha1.Swarm) *corev1.Pod {
 		Spec: corev1.PodSpec{
 			Containers: []corev1.Container{
 				{
-					Name:    "busybox",
-					Image:   "busybox",
-				//	Command: strings.Split(cr.Spec.Command, " "),
+					Name:  "busybox",
+					Image: "busybox",
+					//	Command: strings.Split(cr.Spec.Command, " "),
 				},
 			},
 			RestartPolicy: corev1.RestartPolicyOnFailure,

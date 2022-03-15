@@ -32,13 +32,13 @@ import (
 
 // FakeSwarms implements SwarmInterface
 type FakeSwarms struct {
-	Fake *FakeSwarmV1alpha1
+	Fake *FakeK8slabV1alpha1
 	ns   string
 }
 
-var swarmsResource = schema.GroupVersionResource{Group: "swarm.k8-lab.info", Version: "v1alpha1", Resource: "swarms"}
+var swarmsResource = schema.GroupVersionResource{Group: "k8slab.info", Version: "v1alpha1", Resource: "swarms"}
 
-var swarmsKind = schema.GroupVersionKind{Group: "swarm.k8-lab.info", Version: "v1alpha1", Kind: "Swarm"}
+var swarmsKind = schema.GroupVersionKind{Group: "k8slab.info", Version: "v1alpha1", Kind: "Swarm"}
 
 // Get takes name of the swarm, and returns the corresponding swarm object, and an error if there is any.
 func (c *FakeSwarms) Get(ctx context.Context, name string, options v1.GetOptions) (result *v1alpha1.Swarm, err error) {

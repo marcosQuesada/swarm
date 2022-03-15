@@ -19,7 +19,7 @@ limitations under the License.
 package fake
 
 import (
-	swarmv1alpha1 "github.com/marcosQuesada/swarm/pkg/apis/swarm/v1alpha1"
+	k8slabv1alpha1 "github.com/marcosQuesada/swarm/pkg/apis/swarm/v1alpha1"
 	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	runtime "k8s.io/apimachinery/pkg/runtime"
 	schema "k8s.io/apimachinery/pkg/runtime/schema"
@@ -31,7 +31,7 @@ var scheme = runtime.NewScheme()
 var codecs = serializer.NewCodecFactory(scheme)
 
 var localSchemeBuilder = runtime.SchemeBuilder{
-	swarmv1alpha1.AddToScheme,
+	k8slabv1alpha1.AddToScheme,
 }
 
 // AddToScheme adds all types of this clientset into the given scheme. This allows composition

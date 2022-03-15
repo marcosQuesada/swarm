@@ -1,6 +1,5 @@
 package swarm
 
 const (
-	GroupName = "k8-lab.info"
+	GroupName = "k8slab.info"
 )
-

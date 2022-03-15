@@ -1,4 +1,4 @@
-apiVersion: "k8-lab.info/v1alpha1"
+apiVersion: "k8slab.info/v1alpha1"
 kind: "Swarm"
 metadata:
   name: "foo"
